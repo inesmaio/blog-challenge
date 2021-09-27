@@ -1,4 +1,15 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html{
+  scroll-behavior: smooth; 
 }
+
+input:checked {
+    background-color: #22c55e; /* bg-green-500 */
+  }
+
+  input:checked ~ span:last-child {
+    --tw-translate-x: 1.75rem; /* translate-x-7 */
+  }
