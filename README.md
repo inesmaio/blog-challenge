@@ -1,2 +1,2 @@
-# innovationcast-challenge
+# ic-challenge
 Created with CodeSandbox
