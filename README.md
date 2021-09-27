@@ -1,2 +1,2 @@
-# ic-challenge
+# blog-challenge
 Created with CodeSandbox
