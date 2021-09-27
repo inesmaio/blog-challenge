@@ -47,32 +47,33 @@ const App = () => {
   }, []);
 
   // Get the value from button tag to curPage and scroll to top
-  const handlePaginationOnClick = (event: any) => {
+  const handlePaginationOnClick = useCallback((event: any) => {
     setCurPage(event.target.value);
     scrollTo(0, 0);
-  };
+  }, []);
 
   // Go to the previous page and scroll to top
-  const handlePagPreOnClick = () => {
+  const handlePagPreOnClick = useCallback(() => {
     if (curPage >= 2) {
       setCurPage(curPage - 1);
       scrollTo(0, 0);
     }
-  };
+  }, []);
 
   // Go to the next page and scroll to top
-  const handlePagNextOnClick = () => {
+  const handlePagNextOnClick = useCallback(() => {
     if (curPage < totalPages) {
       setCurPage(curPage + 1);
       scrollTo(0, 0);
     }
-  };
+  }, []);
+
   // Go to the previous page and scroll to top
-  const handleValidationToggleChange = () => {
-    setValidation(!validation);
+  const handleValidationToggleChange = useCallback(() => {
+    setValidation(curr => !curr);
     setCurPage(1);
     scrollTo(0, 0);
-  };
+  }, []);
 
   return (
     <div className="font-text flex items-center flex-col">

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import Button from "./button.component";
 
 export interface NewPostProps {
@@ -21,23 +21,24 @@ const NewPost: FC<NewPostProps> = ({
   const [reply, setReply] = useState<string>("");
 
   // Get value from textarea new post component
-  const handleChangeReplyValue = (
-    event: React.FormEvent<HTMLTextAreaElement>
-  ) => {
-    setReply(event.currentTarget.value);
-  };
+  const handleChangeReplyValue = useCallback(
+    (event: React.FormEvent<HTMLTextAreaElement>) => {
+      setReply(event.currentTarget.value);
+    },
+    []
+  );
 
   // Close the new comment section
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setReply("");
     closeAction();
-  };
+  }, [closeAction]);
 
   // Save the new post on the API
-  const onSave = async () => {
+  const onSave = useCallback(async () => {
     await saveDataAction(reply);
     closeAction();
-  };
+  }, [closeAction]);
 
   return (
     <section
