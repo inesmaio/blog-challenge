@@ -11,7 +11,7 @@ interface ResFetchPostsProps {
 }
 
 export const fetchPosts = async (validated: boolean, page?: number): Promise<ResFetchPostsProps> => {
-    const res = await fetch(validated ? `/api/posts?page=${page}?&filter=validated` : `/api/posts?page=${page}`);
+    const res = await fetch(validated ? `/api/posts?page=${page}&filter=validated` : `/api/posts?page=${page}`);
     const jsonRes = await res.json();
     return jsonRes
 }
