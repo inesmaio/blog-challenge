@@ -1,2 +1,2 @@
-# blog-challenge
+# discourse-challenge
 Created with CodeSandbox
