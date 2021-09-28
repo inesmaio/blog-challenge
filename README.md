@@ -1,2 +1,2 @@
-# innovationcast-challenge
+# discourse-challenge
 Created with CodeSandbox
