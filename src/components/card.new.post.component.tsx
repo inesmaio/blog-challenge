@@ -37,12 +37,13 @@ const NewPost: FC<NewPostProps> = ({
   // Save the new post on the API
   const onSave = useCallback(async () => {
     await saveDataAction(reply);
+    setReply("");
     closeAction();
   }, [closeAction]);
 
   return (
     <section
-      className={`${classes} fixed bottom-0 flex z-10 rounded-t-lg p-2 sm:pl-10 bg-white flex flex-col sticky shadow-2xl pb-5 w-11/12 h-150 sm:w-4/6 sm:h-300`}
+      className={`${classes} fixed bottom-0 flex z-10 rounded-t-lg p-2 sm:pl-10 bg-white flex flex-col shadow-2xl pb-5 w-11/12 h-150 sm:w-4/6 sm:h-300`}
     >
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-center">

@@ -14,27 +14,33 @@ const userProfileImgUrl = logo;
 
 const App = () => {
   const [posts, setPosts] = useState<PostsProps[]>([]);
-  const [totalPages, setTotalPages] = useState<number>(0);
   const [newPostVisible, setNewPostVisible] = useState<boolean>(false);
   const [validation, setValidation] = useState<boolean>(false);
-  const [curPage, setCurPage] = useState<number>(1);
+  const [nextPage, setNextPage] = useState<number>();
 
   // Set curPage, pagination, posts state.
   // It will run every time validation or curPage state changes
   useEffect(() => {
     const loadData = async () => {
       try {
-        const res = await fetchPosts(validation, curPage);
-        setTotalPages(res.total_pages);
-        setCurPage(res.page);
+        const res = await fetchPosts(validation, 1);
         setPosts(res.posts);
+        setNextPage(res.next_page);
       } catch {
         // If in a real project I would create a feedback page
         alert("Data fetch failed!");
       }
     };
     loadData();
-  }, [validation, curPage]);
+  }, [validation]);
+
+  const loadMore = useCallback(async () => {
+    if (nextPage) {
+      const res = await fetchPosts(validation, nextPage);
+      setPosts((current) => [...current, ...res.posts]);
+      setNextPage(res.next_page);
+    }
+  }, [nextPage, validation]);
 
   // API call for the new post
   const saveData = useCallback(async (reply: string) => {
@@ -46,32 +52,9 @@ const App = () => {
     }
   }, []);
 
-  // Get the value from button tag to curPage and scroll to top
-  const handlePaginationOnClick = useCallback((event: any) => {
-    setCurPage(event.target.value);
-    scrollTo(0, 0);
-  }, []);
-
-  // Go to the previous page and scroll to top
-  const handlePagPreOnClick = useCallback(() => {
-    if (curPage >= 2) {
-      setCurPage(curPage - 1);
-      scrollTo(0, 0);
-    }
-  }, []);
-
-  // Go to the next page and scroll to top
-  const handlePagNextOnClick = useCallback(() => {
-    if (curPage < totalPages) {
-      setCurPage(curPage + 1);
-      scrollTo(0, 0);
-    }
-  }, []);
-
   // Go to the previous page and scroll to top
   const handleValidationToggleChange = useCallback(() => {
-    setValidation(curr => !curr);
-    setCurPage(1);
+    setValidation((curr) => !curr);
     scrollTo(0, 0);
   }, []);
 
@@ -81,9 +64,7 @@ const App = () => {
         toggleAction={handleValidationToggleChange}
         NewCommentBoxAction={() => setNewPostVisible(true)}
       />
-      <div className="flex flex-col items-end">
-        <PostsList posts={posts} />
-      </div>
+      <PostsList posts={posts} loadMore={loadMore} NewCommentBoxAction={() => setNewPostVisible(true)} />
       <NewPost
         title="InnovationCast CHALLENGE!"
         userProfileImgUrl={logo}
@@ -91,13 +72,6 @@ const App = () => {
         classes={newPostVisible ? "block" : "hidden"}
         closeAction={() => setNewPostVisible(false)}
         saveDataAction={saveData}
-      />
-      <Pagination
-        page={curPage}
-        totalPages={totalPages}
-        handlePaginationOnClick={handlePaginationOnClick}
-        handlePagNextOnClick={handlePagNextOnClick}
-        handlePagPreOnClick={handlePagPreOnClick}
       />
     </div>
   );

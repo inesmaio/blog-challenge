@@ -8,5 +8,7 @@ export interface PostsProps {
 }
 
 export interface PostsListProps {
-    posts: Array<PostsProps>
+    posts: Array<PostsProps>;
+    loadMore: () => Promise<void>;
+    NewCommentBoxAction: () => void
 }
